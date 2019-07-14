@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.validators import FileExtensionValidator
 
 
 # Create your models here.
@@ -44,7 +45,8 @@ class Documento(models.Model):
     fecha_creacion = models.DateTimeField(default=timezone.now)
     fecha_publicacion = models.DateField(blank=True, null=True)
     fecha_vencimiento = models.DateField(blank=True, null=True)
-    archivo = models.FileField(upload_to='archivos/') #Restringir a PDF
+    archivo = models.FileField(upload_to='archivos/',validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
+    #falta restringir el tamaño del archivo.
     publicado = models.BooleanField(default=False,help_text="Indica si el documento está publicado en la página.")
 
     def __str__(self):

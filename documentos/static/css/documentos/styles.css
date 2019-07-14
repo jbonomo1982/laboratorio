@@ -1,0 +1,23 @@
+#id_honeypot {
+    display: none;
+}
+
+
+.nav-pills {
+    margin-top: 20px;
+    width: 100%
+}
+.nav-pills > li {
+    float: left;
+    width: 100%;
+}
+
+
+.sidebar {
+  margin-top: 20px;
+  padding: 0;
+  list-style: none;
+	background-color:cornflowerblue;
+    min-height: 720px;
+    width: 100%;
+}

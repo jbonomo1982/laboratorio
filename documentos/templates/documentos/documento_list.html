@@ -1,0 +1,20 @@
+{% extends "documentos/base.html" %}
+
+{% block content %}
+    <h1>Lista de Documentos</h1>
+
+    {% if documento_list %}
+    <ul>
+
+      {% for d in documento_list %}
+      <li>
+        <a href="{% url 'doc-detail' pk=d.pk %}">{{ d.categoria }}</a>
+        <p>{{d.get_absolute_url}}</p>
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>No se ingresó ningún Documento.</p>
+    {% endif %}
+{% endblock %}

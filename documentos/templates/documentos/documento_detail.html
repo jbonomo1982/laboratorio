@@ -1,0 +1,18 @@
+{% extends "documentos/base.html" %}
+
+
+{% block content %}
+  <div class="conteiner-fluid">
+  <div class='row'>
+    <div class="col-sm-9 col-md-9" style="background-color:rgb(230, 248, 242);">
+      <h1 class="bg-primary">No Conformidad: {{ documento.codigo }}</h1>
+
+      <p><strong>Autor:</strong>  {{ documento.autor }}</p>
+      <p><strong>Version:</strong>  {{ documento.autor }}</p>
+      <p><strong>fecha publicación:</strong>  {{ documento.fecha_publicacion }}</p>
+
+
+
+
+
+{% endblock %}

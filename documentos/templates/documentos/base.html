@@ -11,7 +11,7 @@
 
   <!-- Add additional CSS in static file -->
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+  <link rel="stylesheet" href="{% static 'css/documentos/styles.css' %}">
 </head>
 
 <body>
@@ -25,14 +25,14 @@
         <h2 id="menu" class="bg-primary">MENÚ</h2>
       <ul class="nav nav-pills nav stacked" role="tablist" >
         <li></li>
-        <li class="btn btn-default"><a href="{% url 'index' %}">Home <span class= "glyphicon glyphicon-home"></span></a></li>
-        <li class="btn btn-default" ><a href="" >Lista de Documentos <span class= "glyphicon glyphicon-list-alt"></span></a></li>
-        <li class="btn btn-default"><a href=""> <span class= "glyphicon glyphicon-plus"></span></a></li>
+        <li class="btn btn-default"><a href="{% url 'documentos:index' %}">Home <span class= "glyphicon glyphicon-home"></span></a></li>
+        <li class="btn btn-default" ><a href="{% url 'documentos:doc' %}" >Documentos <span class= "glyphicon glyphicon-list-alt"></span></a></li>
+        <li class="btn btn-default"><a href="{% url 'nc:nc' %}">NC <span class= "glyphicon glyphicon-remove-sign"></span></a></li>
         {% if user.is_authenticated %}
           <li class="btn btn-default">User: {{ user.get_username }}</li>
           <li  class="btn btn-danger"><a href="">Logout</a></li>
         {% else %}
-          <li class="btn btn-success"><a href="">Login</a></li>   
+          <li class="btn btn-success"><a href="">Login</a></li>
         {% endif %}
       </ul>
     {% endblock %}
