@@ -49,7 +49,7 @@ class AnalisisCausa(models.Model):
     nc = models.ForeignKey(NC, on_delete=models.CASCADE)
     fecha = models.DateTimeField(
         default=timezone.now)
-    descr = models.TextField(help_text="Acá se describe el análisis de causa de la  NC")
+    descripcion = models.TextField(help_text="Acá se describe el análisis de causa de la  NC")
     publicado = models.BooleanField(default=False,help_text="Indica si la entrada está aceptada.")
 
     def __str__(self):
@@ -62,7 +62,7 @@ class AccionInm(models.Model):
     nc = models.ForeignKey(NC, on_delete=models.CASCADE)
     created_date = models.DateTimeField(
             default=timezone.now)
-    text = models.TextField(help_text=
+    descripcion = models.TextField(help_text=
     "Describir cómo se trato corregir la acción que genera la NC, en una prímera instancia")
     publicado = models.BooleanField(default=False,help_text="Indica si la entrada está aceptada.")
     fecha_publicado = models.DateTimeField(blank=True,null=True)
@@ -78,24 +78,25 @@ class AccionCorrectiva(models.Model):
     nc = models.ForeignKey(NC, on_delete=models.CASCADE)
     created_date = models.DateTimeField(
             default=timezone.now)
-    text = models.TextField(help_text=
+    descripcion = models.TextField(help_text=
     "Describir cómo se piensa corregir la acción que genera la NC,")
     publicado = models.BooleanField(default=False,help_text="Indica si la entrada está aceptada.")
-    fechalimite= models.DateTimeField(help_text="Ingresar la fecha en la cual debe estar implementada la AC \n con el siguiente formato: dd/mm/aaaa hh:mm:ss")
+    fecha_limite= models.DateTimeField(help_text="Ingresar la fecha en la cual debe estar implementada la AC \n con el siguiente formato: dd/mm/aaaa hh:mm:ss")
 
     def __str__(self):
         return 'Acción Correctiva: {0} {1}'.format(self.autor,self.nc)
 
 class VerificaAC(models.Model):
-    encargado = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    autor = models.ForeignKey('auth.User',blank=True,null=True, on_delete=models.CASCADE,related_name='autor') #Es el que
+    encargado = models.ForeignKey('auth.User', on_delete=models.CASCADE,related_name='encargado') #Es la persona que se encarga de hacer la Verificacion
     nc = models.ForeignKey(NC, on_delete=models.CASCADE)
     ac = models.ForeignKey(AccionCorrectiva, on_delete=models.CASCADE)
     created_date = models.DateTimeField(
             default=timezone.now)
     publicado = models.BooleanField(default=False,help_text="Indica si la entrada está aceptada.")
-    fechaVerif= models.DateTimeField()
+    fecha_verificacion= models.DateTimeField()
     resultado=models.TextField()
-    metodoVerif= models.TextField()
+    metodo_verificacion= models.TextField()
 
     def __str__(self):
         return 'Verificacion de NC: {0}, AC: {1}'.format(self.nc,self.ac)
@@ -105,8 +106,8 @@ class Archivo(models.Model):
     nc = models.ForeignKey(NC, on_delete=models.CASCADE,default=None)
     created_date = models.DateTimeField(
             default=timezone.now)
-    document = models.FileField(upload_to='archivos/')
-    descr = models.TextField(help_text=
+    archivo = models.FileField(upload_to='archivos/')
+    descripcion = models.TextField(help_text=
     "Describir el archivo que se sube.")
     publicado = models.BooleanField(default=False,help_text="Indica si la entrada está aceptada.")
 

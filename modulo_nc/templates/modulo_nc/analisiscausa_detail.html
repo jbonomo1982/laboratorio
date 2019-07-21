@@ -1,0 +1,36 @@
+{% extends "documentos/base.html" %}
+
+{% block content %}
+  <h1>Análisis de causa: {{ analisiscausa.pk }}</h1>
+
+  <p><strong>Autor:</strong> {{ analisiscausa.autor }}</p>
+  <p><strong>De la NC:</strong> {{ analisiscausa.nc }}</p>
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Desarrollo:</h4>
+    <p> {{ analisiscausa.descripcion }}</p>
+  </div>
+
+  {% if analisiscausa.publicado%}
+    <p>Este Análisis de Causa  está publicado</p>
+
+  {% else %}
+    <p>Este Análisis de Causa no está publicado.</p>
+  {% endif %}
+
+
+
+  {% if user.is_authenticated %}
+
+
+    <a href="{% url 'nc:Analisis-edit' pk=analisiscausa.pk %}">Editar este análisis de causa.</a>
+
+  {% endif %}
+
+  {% for group in user.groups.all %}
+    {% if group.name == 'Editor_Responsable' %}
+    <br>
+    <a href="{% url 'Analisis-publicar' pk=analisiscausa.pk %}">Publicar este análisis de causa.</a>
+    {% endif %}
+  {% endfor %}
+
+{% endblock %}

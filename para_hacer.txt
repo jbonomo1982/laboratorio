@@ -1,0 +1,3 @@
+-Agregar las view que faltan: NC_info, cerrarNc, etc
+-Completar la parte de comentarios
+-Hacer que se puedan bajar/visualizar los archivos adjuntos (PDF)

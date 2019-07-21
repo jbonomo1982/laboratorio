@@ -1,0 +1,48 @@
+{% extends "documentos/base.html" %}
+
+{% block content %}
+
+
+    <h1 class="bg-primary">No Conformidad: {{ nc.pk }}</h1>
+
+    <p><strong>Autor:</strong> {{ nc.autor }}</p>
+    <p><strong>Título:</strong> {{ nc.titulo }}</p>
+    <p><strong>Sector:</strong> {{ nc.sector }}</p>
+    <p><strong>Fecha de apertura:</strong> {{ nc.fecha_apertura }}</p>
+    {% if nc.cerrada %}
+        <p><strong>Estado de la NC:</strong> Cerrada</p>
+
+        {% else %}
+            <p><strong>Estado de la NC:</strong> Abierta</p>
+
+    {% endif %}
+
+    <div style="margin-left:20px;margin-top:20px">
+      <h4><strong>Descripción de la NC:</strong></h4>
+      <p> {{ nc.descripcion }}</p>
+    </div>
+
+    <h2 class="bg-primary">Acción Inmediata:</h2>
+    <br>
+    <p><strong>Descripción:</strong></p>
+    <p>{{ ai.descripcion }} </p>
+
+    <h2 class="bg-primary">Análisis de Causa:</h2>
+    <p><strong>Descripción:</strong></p>
+    <p>{{ ac.descripcion }} </p>
+
+    <h2 class="bg-primary">Acción Correctiva:</h2>
+    <p><strong>Descripción:</strong></p>
+    <p>{{ aco.descripcion }} </p>
+    <p><strong>Fecha límite:</strong> {{aco.fecha_limite}}</p>
+
+    <h2 class="bg-primary">Verificación de la Acción Correctiva:</h2>
+    <p><strong>Fecha:</strong> {{vac.fecha_verificacion}}</p>
+    <p><strong>Método:</strong> {{vac.metodo_verificacion}}</p>
+    <p><strong>Resultado:</strong> {{vac.resultado}}</p>
+
+    <h2 class="bg-primary">Cierre de NC</h2>
+    <p><strong>Fecha:</strong> {{cNC.fecha_cierre}}</p>
+
+
+{% endblock %}

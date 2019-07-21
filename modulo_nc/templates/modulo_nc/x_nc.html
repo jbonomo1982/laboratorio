@@ -1,0 +1,79 @@
+{% extends "documentos/base.html" %}
+
+{% block content %}
+    <h1>Lista de {{tipo}} para la NC {{nc}} </h1>
+
+    {% if ac %}
+    <ul>
+
+      {% for a in ac %}
+      <li>
+        <a href="{% url 'nc:AnalisisCausa-detail' pk=a.pk %}">{{ a.pk }}</a>
+
+
+      </li>
+      <ul>
+      {% endfor %}
+    {% elif ai %}
+      <ul>
+
+        {% for a in ai %}
+        <li>
+          <a href="{% url 'nc:AccionInm-detail' pk=a.pk %}">{{ a.pk }}</a>
+
+
+        </li>
+        {% endfor %}
+
+      </ul>
+
+      {% elif aco %}
+        <ul>
+
+          {% for a in aco %}
+          <li>
+            <a href="{% url 'nc:AccionCorrectiva-detail' pk=a.pk %}">{{ a.pk }}</a>
+
+
+          </li>
+          {% endfor %}
+
+        </ul>
+        {% elif ar %}
+          <ul>
+
+            {% for a in ar %}
+            <li>
+              <a href="{% url 'nc:Archivo-detail' pk=a.pk %}">{{ a.pk }}</a>
+
+
+            </li>
+            {% endfor %}
+
+          </ul>
+          {% elif cNC %}
+            <ul>
+
+              {% for a in cNC %}
+              <li>
+                <a href="{% url 'nc:CierreNC-detail' pk=a.pk %}">{{ a.pk }}</a>
+
+
+              </li>
+              {% endfor %}
+
+            </ul>
+    {% else %}
+      <p>No se encontró ningún {{tipo}} para la NC {{nc}}.</p>
+    {% endif %}
+
+    <h2>Avanzar en la No Conformidad:</h2>
+      <ul>
+        <li><a href="{% url 'nc:nuevaAccionInm' pk=nc %}">Abrir Acción Inmediata</a></li>
+        <li><a href="{% url 'nc:nuevaAnalisis' pk=nc %}">Abrir Análisis de Causa</a></li>
+        <li><a href="{% url 'nc:nuevaAccionCorrectiva' pk=nc %}">Abrir Acción Correctiva</a></li>
+        <li><a href="{% url 'nc:nuevaArchivo' pk=nc %}">Subir Archivo</a></li>
+        <li><a href="{% url 'nc:nuevaCierreNC' pk=nc %}">Cerrar No Conformidad</a></li>
+        
+      </ul>
+{% endblock %}

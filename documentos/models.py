@@ -12,7 +12,7 @@ class Sector(models.Model):
     nombre = models.CharField(max_length=100)
 
     def __str__(self):
-        d = "Sector " + self.codigo
+        d =  self.nombre
         return d
 
 class Tipo_doc(models.Model):
