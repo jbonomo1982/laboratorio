@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from documentos.models import Sector
-
+from django.core.validators import FileExtensionValidator
 
 # Create your models here.
 
@@ -106,7 +106,7 @@ class Archivo(models.Model):
     nc = models.ForeignKey(NC, on_delete=models.CASCADE,default=None)
     created_date = models.DateTimeField(
             default=timezone.now)
-    archivo = models.FileField(upload_to='archivos/')
+    archivo = models.FileField(upload_to='archivos/',validators=[FileExtensionValidator(allowed_extensions=['jpeg','jpg','png','gif'])])
     descripcion = models.TextField(help_text=
     "Describir el archivo que se sube.")
     publicado = models.BooleanField(default=False,help_text="Indica si la entrada está aceptada.")

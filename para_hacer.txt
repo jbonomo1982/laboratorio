@@ -1,3 +1,5 @@
--Agregar las view que faltan: NC_info, cerrarNc, etc
--Completar la parte de comentarios
--Hacer que se puedan bajar/visualizar los archivos adjuntos (PDF)
+
+-Agregar archivos al informe de la NC
+-Chequear cada proceso (nuevo, editar, publicar, etc)
+-Hacer que se puedan bajar/visualizar los archivos adjuntos
+-Poner un mensaje cuando se quiera verificar una AC que no está publicada.

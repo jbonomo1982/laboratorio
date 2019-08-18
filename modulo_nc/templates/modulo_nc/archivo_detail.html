@@ -7,25 +7,28 @@
   <p><strong>De la NC:</strong> {{ archivo.nc }}</p>
   <div style="margin-left:20px;margin-top:20px">
     <h4>Descripción:</h4>
-    <p> {{ archivo.descr }}</p>
+    <p> {{ archivo.descripcion }}</p>
   </div>
 
   {% if archivo.publicado%}
     <p>Este Archivo  está publicado</p>
 
+    <img src="{{ archivo.archivo.url }}" >
+
   {% else %}
     <p>Este Archivo no está publicado.</p>
+    {% for group in user.groups.all %}
+      {% if group.name == 'Editor_Responsable' %}
+      <br>
+      <a href="{% url 'nc:Archivo-publicar' pk=archivo.pk %}">Publicar este Archivo</a>
+      {% endif %}
+    {% endfor %}
   {% endif %}
 
 
 
 
 
-  {% for group in user.groups.all %}
-    {% if group.name == 'Editor_Responsable' %}
-    <br>
-    <a href="{% url 'Archivo-publicar' pk=archivo.pk %}">Publicar este Archivo</a>
-    {% endif %}
-  {% endfor %}
+
 
 {% endblock %}

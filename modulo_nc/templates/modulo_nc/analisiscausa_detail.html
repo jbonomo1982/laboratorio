@@ -29,7 +29,7 @@
   {% for group in user.groups.all %}
     {% if group.name == 'Editor_Responsable' %}
     <br>
-    <a href="{% url 'Analisis-publicar' pk=analisiscausa.pk %}">Publicar este análisis de causa.</a>
+    <a href="{% url 'nc:Analisis-publicar' pk=analisiscausa.pk %}">Publicar este análisis de causa.</a>
     {% endif %}
   {% endfor %}
 

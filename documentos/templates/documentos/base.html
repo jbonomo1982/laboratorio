@@ -30,9 +30,9 @@
         <li class="btn btn-default"><a href="{% url 'nc:nc' %}">NC <span class= "glyphicon glyphicon-remove-sign"></span></a></li>
         {% if user.is_authenticated %}
           <li class="btn btn-default">User: {{ user.get_username }}</li>
-          <li  class="btn btn-danger"><a href="">Logout</a></li>
+          <li  class="btn btn-danger"><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
         {% else %}
-          <li class="btn btn-success"><a href="">Login</a></li>
+          <li class="btn btn-success"><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
         {% endif %}
       </ul>
     {% endblock %}

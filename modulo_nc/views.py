@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from .models import NC, AccionInm, Contribuyente, AnalisisCausa, AccionCorrectiva, VerificaAC, Archivo, CierreNC
-from .forms import NCForm,AccionInmForm, AccionInmFormEditor, AnalisisForm, AnalisisFormEditor, AccionCorrectivaForm,AccionCorrectivaFormEditor, VerificaAC, VerificaACForm,ArchivoForm, ArchivoFormEditor, CierreNCForm, CierreNCFormEditor
+from .forms import NCForm,AccionInmForm, AccionInmFormEditor, AnalisisForm, AnalisisFormEditor, AccionCorrectivaForm,AccionCorrectivaFormEditor, VerificaACForm, VerificaACFormEditor,ArchivoForm, ArchivoFormEditor, CierreNCForm, CierreNCFormEditor
 from django.shortcuts import redirect, get_object_or_404
 from django.http import HttpResponse
 from django.utils import timezone
@@ -141,7 +141,7 @@ class AnalisisCausaDetailView(generic.DetailView):
 
 
 def analisiscausa_new(request,pk):
-    tipo= "Análisis Causa"
+    tipo= "Análisis de Causa"
     nc = NC.objects.get(pk=pk)
     if request.method == "POST":
         form = AnalisisForm(request.POST)
@@ -233,7 +233,7 @@ def AnalisisCausa_edit(request, pk):
 
 
     else:
-        form = AccionInmForm(initial={'descripcion':post.descripcion})
+        form = AnalisisForm(initial={'descripcion':post.descripcion})
     return render(request, 'modulo_nc/nuevo.html', {'tipo': tipo,'form': form})
 
 #Acción Correctiva
@@ -258,7 +258,7 @@ def accioncorrectiva_new(request,pk):
 
             post.nc = nc
             post.save()
-            return redirect('AccionCorrectiva-detail', pk=post.pk)
+            return redirect('nc:AccionCorrectiva-detail', pk=post.pk)
     else:
 
         form = AccionCorrectivaForm()
@@ -303,7 +303,7 @@ def AccionCorrectiva_publicar(request, pk):
                     otrasAC = AccionCorrectiva.objects.filter(nc = nc).exclude(pk=post2.pk)
                     otrasAC.update(publicado=False)
 
-                return redirect('AccionCorrectiva-detail', pk=post2.pk)
+                return redirect('nc:AccionCorrectiva-detail', pk=post2.pk)
 
     else:
         form = AccionCorrectivaForm(instance=post)
@@ -331,7 +331,7 @@ def AccionCorrectiva_edit(request, pk):
 
 
             b.save()
-            return redirect('AccionCorrectiva-detail', pk=b.pk)
+            return redirect('nc:AccionCorrectiva-detail', pk=b.pk)
 
 
     else:
@@ -358,9 +358,9 @@ def verificacionAC_new(request,pk):
             post.ac = ac
             post.autor = request.user
             post.save()
-            return redirect('VerificaAC-detail', pk=post.pk)
+            return redirect('nc:VerificaAC-detail', pk=post.pk)
         else:
-            print("no es valido")
+            print("no es válido")
     else:
 
         form = VerificaACForm()
@@ -406,39 +406,12 @@ def verificacion_publicar(request, pk):
                     otrasVAC = VerificaAC.objects.filter(ac = ac).exclude(pk=post2.pk)
                     otrasVAC.update(publicado=False)
 
-                return redirect('VerificaAC-detail', pk=post2.pk)
+                return redirect('nc:VerificaAC-detail', pk=post2.pk)
 
     else:
         form = VerificaACForm(instance=post)
         formE = VerificaACFormEditor(instance=post)
     return render(request, 'modulo_nc/nuevo.html', {'form': form,'formE':formE,'tipo':tipo})
-
-def verificacion_edit(request, pk):
-    #Editar en realidad tiene que ser crear una nueva instancia sobre otra anterior
-    post = get_object_or_404(VerificaAC, pk=pk)
-    nc = post.nc
-    if request.method == "POST":
-        form = VerificaACForm(request.POST)
-
-        if form.is_valid():
-            b= form.save(commit=False)
-            b.autor = request.user
-            b.nc = nc
-
-            if nc.autor != request.user:
-                if Contribuyente.objects.get(nc=nc):
-                    a = Contribuyente.objects.get(nc=nc)
-                    a.contribuyente.add(request.user)
-                    a.save()
-
-
-            b.save()
-            return redirect('VerificaAC-detail', pk=b.pk)
-
-
-    else:
-        form = VerificaACForm()
-    return render(request, 'modulo_nc/nuevo.html', {'form': form})
 
 
 #Archivo
@@ -463,7 +436,7 @@ def archivo_new(request,pk):
 
             post.nc = nc
             post.save()
-            return redirect('Archivo-detail', pk=post.pk)
+            return redirect('nc:Archivo-detail', pk=post.pk)
     else:
 
         form = ArchivoForm()
@@ -507,7 +480,7 @@ def Archivo_publicar(request, pk):
                     otrasAC = Archivo.objects.filter(nc = nc).exclude(pk=post2.pk)
                     otrasAC.update(publicado=False)
 
-                return redirect('Archivo-detail', pk=post2.pk)
+                return redirect('nc:Archivo-detail', pk=post2.pk)
 
     else:
         form = ArchivoForm(instance=post)

@@ -27,7 +27,6 @@ urlpatterns = [
     path('Verificacion/<int:pk>/',views.VerificaACDetailView.as_view(),name='VerificaAC-detail'),
     path('Verificacion_por_AC', views.verificacionAC_por_AC, name='verificacion_por_AC'),
     path('Verificacion_publicar/<int:pk>/',views.verificacion_publicar,name='Verificacion-publicar'),
-    path('Verificacion_edit/<int:pk>/',views.verificacion_edit,name='Verificacion-edit'),
     path('Archivo/<int:pk>/',views.ArchivoDetailView.as_view(),name='Archivo-detail'),
     path('nuevaArchivo/<int:pk>/', views.archivo_new, name='nuevaArchivo'),
     path('Archivo_por_NC', views.archivo_por_NC, name='archivo_por_NC'),

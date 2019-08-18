@@ -3,15 +3,81 @@
 {% block content %}
     {% if user.is_authenticated %}
         <h1>Nueva {{tipo}}</h1>
-        <form method="POST" class="NCForm">{% csrf_token %}
+        {% if tipo == "No Conformidad" %}
+          <form method="POST" class="NCForm">{% csrf_token %}
+              {{ form.as_p }}
+              {% for group in user.groups.all %}
+                  {% if group.name == 'Editor_Responsable' %}
+                      {{formE.as_p}}
+                      {% endif %}
+              {% endfor %}
+              <button type="submit" class="save btn btn-default">Guardar</button>
+          </form>
+        {% elif tipo == "Archivo" %}
+          <form method="POST" enctype="multipart/form-data" >{% csrf_token %}
             {{ form.as_p }}
             {% for group in user.groups.all %}
                 {% if group.name == 'Editor_Responsable' %}
                     {{formE.as_p}}
                 {% endif %}
             {% endfor %}
-            <button type="submit" class="save btn btn-default">Guardar</button>
+          <button type="submit" class="save btn btn-default">Guardar</button>
         </form>
+
+      {% elif tipo == "Acción Inmediata" %}
+        <form method="POST" class="AccionInmForm" >{% csrf_token %}
+          {{ form.as_p }}
+          {% for group in user.groups.all %}
+              {% if group.name == 'Editor_Responsable' %}
+                  {{formE.as_p}}
+              {% endif %}
+          {% endfor %}
+        <button type="submit" class="save btn btn-default">Guardar</button>
+        </form>
+
+        {% elif tipo == "Análisis de Causa" %}
+          <form method="POST" class="AnalisisForm" >{% csrf_token %}
+            {{ form.as_p }}
+            {% for group in user.groups.all %}
+                {% if group.name == 'Editor_Responsable' %}
+                  {{formE.as_p}}
+                {% endif %}
+            {% endfor %}
+            <button type="submit" class="save btn btn-default">Guardar</button>
+          </form>
+
+        {% elif tipo == "Acción Correctiva" %}
+          <form method="POST" class="AccionCorrectivaForm" >{% csrf_token %}
+              {{ form.as_p }}
+              {% for group in user.groups.all %}
+                  {% if group.name == 'Editor_Responsable' %}
+                      {{formE.as_p}}
+                  {% endif %}
+              {% endfor %}
+              <button type="submit" class="save btn btn-default">Guardar</button>
+          </form>
+        {% elif tipo == "verificación de Acción Correctiva" %}
+          <form method="POST" class="VerificaACForm" >{% csrf_token %}
+              {{ form.as_p }}
+              {% for group in user.groups.all %}
+                  {% if group.name == 'Editor_Responsable' %}
+                      {{formE.as_p}}
+                  {% endif %}
+                {% endfor %}
+                <button type="submit" class="save btn btn-default">Guardar</button>
+            </form>
+        {% elif tipo == "Cierre de NC" %}
+            <form method="POST" class="CierreNCForm" >{% csrf_token %}
+                {{ form.as_p }}
+                {% for group in user.groups.all %}
+                    {% if group.name == 'Editor_Responsable' %}
+                        {{formE.as_p}}
+                    {% endif %}
+                  {% endfor %}
+                  <button type="submit" class="save btn btn-default">Guardar</button>
+              </form>
+
+        {% endif %}
 
     {% else %}
         <h2>Por favor loguearse para crear una {{tipo}}</h2>

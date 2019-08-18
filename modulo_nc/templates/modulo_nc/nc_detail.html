@@ -4,14 +4,18 @@
 {% block content %}
   <div class="conteiner-fluid">
   <div class='row'>
-    <div class="col-sm-9 col-md-9" style="background-color:rgb(230, 248, 242);">
+    <div class="col-sm-9 col-md-9" >
       <h1 class="bg-primary">No Conformidad: {{ nc.codigo }}</h1>
 
       <p><strong>Autor:</strong>  {{ nc.autor }}</p>
       <p><strong>Título:</strong> {{ nc.titulo }}</p>
       <p><strong>Sector:</strong> {{ nc.sector }}</p>
       <p><strong>Fecha de apertura:</strong> {{ nc.fecha_apertura }}</p>
-      <p><strong>Cerrado:</strong> {{ nc.cerrada }}</p>
+      {% if nc.cerrada %}
+        <p><strong>Cerrado:</strong> Verdadero </p>
+      {% else %}
+        <p><strong>Cerrado:</strong> Falso </p>
+      {% endif %}
       <h4><strong>descripcion de la NC:</strong></h4>
       <p class="bg-info"> {{ nc.descripcion }}</p>
 
@@ -33,15 +37,47 @@
       {% endif %}
 
       {% for group in user.groups.all %}
-        {% if group.name == 'Editor_Responsable' %}
-        <br>
-        <a href="{% url 'nc:nuevaCierreNC' pk=nc.pk %}">Cerrar esta No Conformidad</a>
+        {% if group.name == 'Editor_Responsable'  %}
+        <ul>
+          <li><a href="{% url 'nc:nuevaCierreNC' pk=nc.pk %}">Cerrar esta No Conformidad</a>
+        </ul>
         {% endif %}
       {% endfor %}
 
 
     <h2 class="bg-success">Informe de la No Conformidad</h2>
-    <a href="{% url 'nc:nc-info' pk=nc.pk %}">Ver informe de la NC </a>
+    <ul>
+      <li><a href="{% url 'nc:nc-info' pk=nc.pk %}">Ver informe de la NC </a></li>
+    </ul>
+
+    {% if user.is_authenticated %}
+      <h2 class="bg-success">Ingresar comentario</h2>
+      {% get_comment_form for nc as form %}
+        <form action="{% comment_form_target %}" method="POST">
+          {% csrf_token %}
+          {{ form.comment }}
+          {{ form.honeypot }}
+          {{ form.content_type }}
+          {{ form.object_pk }}
+          {{ form.timestamp }}
+          {{ form.security_hash }}
+          <input type="hidden" name="next" value="{% url 'nc:nc-detail' nc.id %}" />
+          <br>
+          <input type="submit" value="Agregar Comentario" id="id_submit" />
+        </form>
+    {% else %}
+      <p>Por favor loguearse para dejar un comentario.</p>
+    {% endif %}
+  </div>
+
+
+  <div id = izquierda class="col-sm-9 col-md-3" style="background-color:rgb(190, 95, 253);">
+    <h2>Comentarios:</h2>
+    <div class="panel panel-default">
+    {% render_comment_list for nc %}
+    </div>
+  </div>
+  </div>
 
 
 {% endblock %}

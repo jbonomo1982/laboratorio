@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('documentos.urls',namespace='documentos')),
     path('nc/', include('modulo_nc.urls', namespace='nc')),
     path('accounts/', include('django.contrib.auth.urls')),
-]
+    path('comments/', include('django_comments.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

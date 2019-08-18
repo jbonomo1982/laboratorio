@@ -30,10 +30,11 @@
 
   {% for group in user.groups.all %}
     {% if group.name == 'Editor_Responsable' %}
-    <br>
+
+    <h2>Publicar Acción Correctiva</h2>
     <a href="{% url 'nc:AccionCorrectiva-publicar' pk=accioncorrectiva.pk %}">Publicar esta acción correctiva.</a>
-    <br>
-    <a href="{% url 'nc:nuevaVerificacion' pk=accioncorrectiva.pk %}">Verificar esta acción correctiva.</a>           
+    <h2>Crear Verificación para esta Acción Correctiva</h2>
+    <a href="{% url 'nc:nuevaVerificacion' pk=accioncorrectiva.pk %}">Verificar esta acción correctiva.</a>
     {% endif %}
   {% endfor %}
 

@@ -74,6 +74,8 @@
         <li><a href="{% url 'nc:nuevaAccionCorrectiva' pk=nc %}">Abrir Acción Correctiva</a></li>
         <li><a href="{% url 'nc:nuevaArchivo' pk=nc %}">Subir Archivo</a></li>
         <li><a href="{% url 'nc:nuevaCierreNC' pk=nc %}">Cerrar No Conformidad</a></li>
-        
+
       </ul>
+
+    <a href="{% url 'nc:nc-detail' pk=nc %}" class="btn btn-primary" role="button">Volver a NC {{nc.pk}}</a>
 {% endblock %}

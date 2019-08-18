@@ -6,8 +6,10 @@
   <p><strong>Encargado:</strong> <p>{{ verificaac.encargado }}</p>
   <p><strong>De la NC:</strong> {{ verificaac.nc }}</p>
   <div style="margin-left:20px;margin-top:20px">
+    <h4>Resultado Verificación:</h4>
+    <p> {{ verificaac.resultado }}</p>
     <h4>Metodo Verificación:</h4>
-    <p> {{ verificaac.metodoVerif }}</p>
+    <p> {{ verificaac.metodo_verificacion }}</p>
   </div>
 
   {% if verificaac.publicado%}
@@ -18,18 +20,10 @@
   {% endif %}
 
 
-
-  {% if user.is_authenticated %}
-
-
-    <a href="{% url 'nc:Verificacion-edit' pk=verificaac.pk %}">Editar esta verificación de AC.</a>
-
-  {% endif %}
-
   {% for group in user.groups.all %}
     {% if group.name == 'Editor_Responsable' %}
-    <br>
-    <a href="{% url 'Verificacion-publicar' pk=verificaac.pk %}">Publicar esta verificación AC.</a>
+    <h2>Publicar Verificación de Acción correctiva</h4>
+    <a href="{% url 'nc:Verificacion-publicar' pk=verificaac.pk %}">Publicar esta verificación AC.</a>
     {% endif %}
   {% endfor %}
 
