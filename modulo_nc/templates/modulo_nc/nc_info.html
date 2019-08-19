@@ -44,5 +44,9 @@
     <h2 class="bg-primary">Cierre de NC</h2>
     <p><strong>Fecha:</strong> {{cNC.fecha_cierre}}</p>
 
+    <h2 class="bg-primary">Archivos Adjuntos</h2>
+    {% for ar in arch_nc %}
+      <p> <a href="{{ ar.archivo.url }}"> {{ar.descripcion}}</a> <p>
+    {% endfor%}
 
 {% endblock %}

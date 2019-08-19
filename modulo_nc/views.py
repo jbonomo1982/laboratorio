@@ -533,7 +533,10 @@ def nc_info(request, pk):
         if c.aceptado == True:
             cNC = c
 
-    return render(request, 'modulo_nc/nc_info.html', {'nc':nc,'ai':ai,'ac':ac,'aco':aco,'vac':vac, 'cNC':cNC })
+    #Archivos adjuntos de la NC
+    arch_nc = Archivo.objects.filter(nc=nc).exclude(publicado=False)
+
+    return render(request, 'modulo_nc/nc_info.html', {'nc':nc,'ai':ai,'ac':ac,'aco':aco,'vac':vac, 'cNC':cNC, 'arch_nc':arch_nc })
 
 
 
@@ -558,7 +561,7 @@ def cierreNC_new(request,pk):
 
             post.nc = nc
             post.save()
-            return redirect('CierreNC-detail', pk=post.pk)
+            return redirect('nc:CierreNC-detail', pk=post.pk)
     else:
 
         form = CierreNCForm()
@@ -606,7 +609,7 @@ def cierreNC_publicar(request, pk):
                     cierre = NC.objects.filter(pk = nc.pk).update(cerrada = True)
 
 
-                return redirect('CierreNC-detail', pk=post2.pk)
+                return redirect('nc:CierreNC-detail', pk=post2.pk)
 
     else:
         form = CierreNCForm(instance=post)

@@ -1,5 +1,5 @@
 
 -Agregar archivos al informe de la NC
--Chequear cada proceso (nuevo, editar, publicar, etc)
--Hacer que se puedan bajar/visualizar los archivos adjuntos
+-Chequear cada proceso (nuevo, editar, publicar, etc)(Listo!)
+-Hacer que se puedan bajar/visualizar los archivos adjuntos(Actualmente solo imagenes.)
 -Poner un mensaje cuando se quiera verificar una AC que no está publicada.

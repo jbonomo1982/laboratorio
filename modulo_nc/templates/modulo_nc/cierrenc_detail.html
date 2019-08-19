@@ -23,7 +23,7 @@
   {% for group in user.groups.all %}
     {% if group.name == 'Editor_Responsable' %}
     <br>
-    <a href="{% url 'cierreNC-publicar' pk=cierrenc.pk %}">Aceptar este cierre de NC.</a>
+    <a href="{% url 'nc:cierreNC-publicar' pk=cierrenc.pk %}">Aceptar este cierre de NC.</a>
     {% endif %}
   {% endfor %}
 
