@@ -6,12 +6,12 @@
 -Agregar la posibilidad de unir un documento a la NC.
 
 +Modulo Documentos.
+-Agregar un modelo que sea revisión de documentos, con revisor y fecha de revisión.(Listo!)
+-Cambiar como se arma el documento, van a ser partes que se guardan en la db(Listo!)
+-Armar con el informe un pdf del documento
 -Ver detalle de los documentos.
--como ver PDFs en la pagina
 -Tiene que haber dos formas de ver los documentos: Los documentos publicados(Listo!) y las categorias de documentos para poder ver versiones anteriores o crear una nueva.
 -Ordenar mejor los documentos publicados.
--Los registros son ingresados directamente en la página, no se guardan xls. Se tiene que descargar un archivo del registro.
--Cada instrumento tiene que estar en el modulo, para relacionarlo con el documento necesario.(Listo)
--Crear la clase en los modelos de como relacionar los documentos con los instrumentos.(Listo!)
+
 
 

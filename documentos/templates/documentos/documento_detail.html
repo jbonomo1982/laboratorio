@@ -5,12 +5,22 @@
   <div class="conteiner-fluid">
   <div class='row'>
     <div class="col-sm-9 col-md-9" style="background-color:rgb(230, 248, 242);">
-      <h1 class="bg-primary">Documento: {{ documento.categoria }}</h1>
+      <h1 class="bg-primary">{{ documento.categoria }} - {{documento.categoria.descripcion}}<a href="{% url 'documentos:cat_doc_detalle' %}?CD={{documento.categoria.pk}}">ver descripción documento</a></h1>
 
-      <p><strong>Quien publica:</strong>  {{ documento.autor }}</p>
+      <p><strong>Sector:</strong>  {{ documento.categoria.sector.nombre }}</p>
+      <p><strong>Quién publica:</strong>  {{ documento.autor }}</p>
       <p><strong>Version:</strong>  {{ documento.version }}</p>
       <p><strong>fecha publicación:</strong>  {{ documento.fecha_publicacion }}</p>
+      {% if documento.archivo %}
+        <a href=" {{documento.archivo.url}}">Descargar Archivo</a>
+      {% endif %}
 
+      {% for p in partes %}
+        <h1 class="bg-primary">{{p.titulo}}</h1>
+        {% if p.tipo == 'T'%}
+          <p>{{p.texto}}</p>
+        {% endif%}
+      {% endfor%}
 
 
 

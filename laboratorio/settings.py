@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'documentos',
     'modulo_nc',
+    'roles',
+    'instrumentos'
 ]
 
 SITE_ID = 1

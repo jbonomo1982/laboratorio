@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Documento
+from .models import Documento, Categoria_doc, Parte_doc
 from modulo_nc.models import NC
 from .forms import DocumentoForm
 from django.views import generic
@@ -39,3 +39,26 @@ def doc_new(request, pk):
     else:
         form = DocumentoForm()
     return render(request, 'documentos/nuevo_doc.html', {'form': form})
+
+
+class Categoria_docListView(generic.ListView):
+    model = Categoria_doc
+    paginate_by = 10 #Paginación.
+
+
+class Categoria_docDetailView(generic.DetailView):
+    model = Categoria_doc
+
+def cat_doc_detalle(request):
+    cat_doc_requerido = request.GET['CD']
+    cat_doc_buscada = Categoria_doc.objects.get(pk=cat_doc_requerido)
+    #Buscamos todas las versiones de este documento que hay disponibles.
+    docs = Documento.objects.filter(categoria = cat_doc_buscada)
+
+    return render(request, 'documentos/cat_doc_detalle.html', {'cat':cat_doc_buscada, 'docs':docs})
+
+def Docu_detallado(request,pk):
+    docu_buscado = Documento.objects.get(pk=pk)
+    partes = Parte_doc.objects.filter(documento=docu_buscado).order_by('posicion_en_doc')
+
+    return render(request, 'documentos/documento_detail.html',{'documento':docu_buscado,'partes':partes})

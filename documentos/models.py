@@ -34,120 +34,66 @@ class Categoria_doc(models.Model):
     descripcion = models.TextField()
 
     def __str__(self):
-        return '{0} {1}'.format(self.tipo,self.codigo)
+        return '{0}'.format(self.codigo)
 
 
 class Documento(models.Model):
     #Clase que guarda la version del documento, un PDF con metadatos.
+    #Version 2: Un documento que se guarda por partes luego modificables
     autor = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     version = models.CharField(max_length=100)
     categoria = models.ForeignKey(Categoria_doc,on_delete=models.CASCADE,related_name='categoria')
     fecha_creacion = models.DateTimeField(default=timezone.now)
     fecha_publicacion = models.DateField(blank=True, null=True)
     fecha_vencimiento = models.DateField(blank=True, null=True)
-    archivo = models.FileField(upload_to='archivos/',validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
+    archivo = models.FileField(upload_to='archivos/',validators=[FileExtensionValidator(allowed_extensions=['pdf'])], blank=True, null=True)
     #falta restringir el tamaño del archivo.
+    pertenece_a = models.ForeignKey(Categoria_doc,on_delete=models.CASCADE,related_name='pertenece_a',null=True, blank=True)
     publicado = models.BooleanField(default=False,help_text="Indica si el documento está publicado en la página.")
+    editable = models.BooleanField(default=True,help_text="Indica si el documento se puede editar, si está o estuvo publicado, no se  puede")
+    #si esta variable es verdadera esta version del doc está en fase de desarrollo
 
     def __str__(self):
-        return '{0} {1}'.format(self.categoria,self.version)
+        return '{0}-{1}'.format(self.categoria,self.version)
 
-
-class Relacion(models.Model):
-    #Esta clase muestra la Relacion entre dos categorias de documentos
-    documento = models.ForeignKey(Categoria_doc, on_delete=models.CASCADE, related_name='documento')
-    pertenece = models.ForeignKey(Categoria_doc, on_delete=models.CASCADE, related_name='pertenece')
-
-class calibrador_modelo(models.Model):
-    ROCHE = "Roche"
-    ABBOT = "Abbot"
-    RANDOX = "Ran"
-    TSH_801 = "4738551190"
-    FT3_801 = "4738551190"
-    #las variables de opciones no tienen que tener más 5 caracteres
-    OPCIONES_FABRICANTE =[(ROCHE,'Roche'),(ABBOT,'Abbot'),(RANDOX,'Randox')]
-    OPCIONES_CALIBRADOR =[(TSH_801,'Calibrador TSH, para 801, Roche'),(FT3_801,'Calibrador FT3, para 801, Roche')]
+class Parte_doc(models.Model):
+    #Partes del doc, con un campo que determina que posicición tienen en el mismo.
+    #Puede ser texto o una imagen.
+    TEXTO = "T"
+    IMAGEN = "I"
+    OPCIONES_TIPO =[(IMAGEN,"Imágen"),(TEXTO,"Texto")]
     autor = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    marca = models.CharField(max_length=5, choices=OPCIONES_FABRICANTE)
-    nombre = models.CharField(max_length=10, choices=OPCIONES_CALIBRADOR)
-    descripcion = models.TextField()
-    duracion= None #Es la duracion de las alicuotas.
+    titulo = models.TextField(help_text='Título de esta parte')
+    tipo = models.CharField(max_length=1, choices=OPCIONES_TIPO)
+    documento= models.ForeignKey(Documento, on_delete=models.CASCADE)
+    imagen = models.FileField(upload_to='archivos/',validators=[FileExtensionValidator(allowed_extensions=['jpeg','jpg','png','gif'])],blank=True,null=True)
+    posicion_en_doc = models.IntegerField(help_text="posicion que tiene este campo en el documento")
+    texto =models.TextField(help_text='Insertar el texto del documento')
+    editable = models.BooleanField(default=True)
+    #Si el doc pasa de editable a no editable, tiene que haber un proceso que cambie
+    #todos las partes del documento a no editable.
 
     def __str__(self):
-        return '{0} {1}'.format(self.descripcion,self.marca)
+        return '{0}-{1}'.format(self.documento,self.posicion_en_doc)
 
-class calibrador(models.Model):
+
+class Relacion_docs(models.Model):
+    #Esta clase muestra que documentos estan asociados a este.
+    #Podemos controlar las relaciones entre versiones de documentos.
+    documento = models.ForeignKey(Documento, on_delete=models.CASCADE, related_name='documento') #El documento sobre el que se esta trabajando
+    pertenece = models.ForeignKey(Documento, on_delete=models.CASCADE, related_name='pertenece') # A que documento pertenece
+
+    def __str__(self):
+        return '{0}pertenece a {1}'.format(self.documento,self.pertenece)
+
+class Revision_doc(models.Model):
+    #Esta clase es para mostrar quien hace la Revision delos
+    #Documentos, y podemos hacer un relevamiento de todas las
+    #revisiones.
     autor = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    calibrador =models.ForeignKey(calibrador_modelo, on_delete=models.CASCADE)
-    lote = models.CharField(max_length=100)
-    fecha_vencimiento = models.DateField(blank=True, null=True)
+    documento = models.ForeignKey(Documento, on_delete=models.CASCADE)
+    fecha_revision = models.DateField(help_text="fecha en que se hizo la Revision")
+    comentario_revision = models.CharField(max_length=500)
 
     def __str__(self):
-        return '{0} {1}'.format(self.calibrador,self.lote)
-
-
-class Registro_prep(models.Model):
-    #Esta clase es el registro de la preparación  de calibradores,
-    #puede ser que se comparta
-    #entre sectores pero en principio y preparaciones, es solo para Endocrino.
-    autor = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    codigo = models.ForeignKey(Categoria_doc, on_delete=models.CASCADE)
-    material = models.ForeignKey(calibrador, on_delete=models.CASCADE)
-    #pipeta=None
-    #contenedor=None
-    #ambiente=None
-    #agua_dest_tipo = None
-    #agua_dest_lote = None
-    #agua_dest_venc = None
-    #fecha_preparacion=None
-    #cantidad_alicuotas = None
-
-    def __str__(self):
-        return '{0}'.format(self.material)
-
-class Instrumento(models.Model):
-    #En esta clase se guardan los instrumentos analiticos, de medición y
-    #otros que se pueden asociar a un documento. Para así hacer más facil
-    #la busqueda del alcance de un documento.
-    MEDICION = "M"
-    ANALITICO = "A"
-    OTRO = "O"
-    OPCIONES_CLASE =[(MEDICION,'Medición'),(ANALITICO,'Analítico'),(OTRO,'Otro')]
-    autor = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    clase = models.CharField(max_length=1, choices=OPCIONES_CLASE)
-    codigo = models.CharField(max_length=200,default= "Genérico", help_text="Poner el código de el instrumento si es referido en el documento, para que sea fácil encontrarlo")
-    sector = models.ForeignKey(Sector, on_delete=models.CASCADE,blank=True,null=True)
-    descripcion = models.TextField()
-
-    def __str__(self):
-        return '{0} {1}'.format(self.clase,self.pk)
-
-class Relacion_instr_doc(models.Model):
-    #Esta clase guarda en que documento está nombrado un instrumento (puede ser)
-    #uno genérico un instrumento en especifico
-    documento = models.ForeignKey(Categoria_doc, on_delete=models.CASCADE)
-    instrumento = models.ForeignKey(Instrumento, on_delete=models.CASCADE)
-
-class Puesto(models.Model):
-    #Descripcion de los puestos del laboratorio
-    codigo = models.CharField(max_length=50)
-    sector = models.ForeignKey(Sector, on_delete=models.CASCADE)
-    descripcion = models.TextField()
-
-
-    def __str__(self):
-        return '{0}'.format(self.codigo)
-
-class Rol_usuario(models.Model):
-    #Esta clase une el puesto con el usuario del sistema.
-    usuario = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    puesto = models.ForeignKey(Puesto, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return '{0} {1}'.format(self.usuario,self.puesto)
-
-
-class Relacion_doc_puesto(models.Model):
-    #Esta clase une a los documentos con los puestos de trabajo.
-    documento = models.ForeignKey(Categoria_doc, on_delete=models.CASCADE)
-    puesto = models.ForeignKey(Puesto, on_delete=models.CASCADE)
+        return '{0} REV {1}'.format(self.documento,self.fecha_revision)
