@@ -22,6 +22,12 @@
         {% endif%}
       {% endfor%}
 
+      {% if user.is_authenticated %}
+      <h2 class="bg-success">Trabajar sobre el Documento:</h2>
+        <a href="{% url 'documentos:editar_docu' pk=documento.pk%}">Editar documento  </a>
+
+
+      {% endif %}
 
 
 

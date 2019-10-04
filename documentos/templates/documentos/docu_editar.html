@@ -1,0 +1,25 @@
+{% extends "documentos/base.html" %}
+
+
+{% block content %}
+  <div class="conteiner-fluid">
+  <div class='row'>
+    <div class="col-sm-9 col-md-9" style="background-color:rgb(230, 248, 242);">
+      <h1 class="bg-primary">{{ documento.categoria }}-EDITAR</h1>
+
+      <p><strong>Sector:</strong>  {{ documento.categoria.sector.nombre }}</p>
+      <p><strong>Quién publica:</strong>  {{ documento.autor }}</p>
+      
+
+      {% for p in partes %}
+        <h1 class="bg-primary">{{p.titulo}}</h1>
+
+          <p>{{p.texto}}</p>
+          <a>editar</a>
+
+      {% endfor%}
+
+
+
+
+{% endblock %}

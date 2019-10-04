@@ -41,7 +41,7 @@ class Documento(models.Model):
     #Clase que guarda la version del documento, un PDF con metadatos.
     #Version 2: Un documento que se guarda por partes luego modificables
     autor = models.ForeignKey('auth.User', on_delete=models.CASCADE)
-    version = models.CharField(max_length=100)
+    version = models.CharField(max_length=100, blank=True, null=True)
     categoria = models.ForeignKey(Categoria_doc,on_delete=models.CASCADE,related_name='categoria')
     fecha_creacion = models.DateTimeField(default=timezone.now)
     fecha_publicacion = models.DateField(blank=True, null=True)
@@ -81,7 +81,7 @@ class Relacion_docs(models.Model):
     #Esta clase muestra que documentos estan asociados a este.
     #Podemos controlar las relaciones entre versiones de documentos.
     documento = models.ForeignKey(Documento, on_delete=models.CASCADE, related_name='documento') #El documento sobre el que se esta trabajando
-    pertenece = models.ForeignKey(Documento, on_delete=models.CASCADE, related_name='pertenece') # A que documento pertenece
+    pertenece = models.ForeignKey(Documento, on_delete=models.CASCADE, related_name='pertenece', blank=True, null=True) # A que documento pertenece
 
     def __str__(self):
         return '{0}pertenece a {1}'.format(self.documento,self.pertenece)

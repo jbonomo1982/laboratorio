@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from .models import Documento, Categoria_doc, Parte_doc
 from modulo_nc.models import NC
 from .forms import DocumentoForm
@@ -60,5 +60,64 @@ def cat_doc_detalle(request):
 def Docu_detallado(request,pk):
     docu_buscado = Documento.objects.get(pk=pk)
     partes = Parte_doc.objects.filter(documento=docu_buscado).order_by('posicion_en_doc')
+    #Agregar la relacion de documentos
+    #Agregar revision de doc.
 
     return render(request, 'documentos/documento_detail.html',{'documento':docu_buscado,'partes':partes})
+
+def editar_parte(request, pk):
+    #Busca la parte del doc
+    parte = get_object_or_404(Parte_doc, pk=pk)
+    #Agregar que solo puede editar partes Editor_Responsable y del sector
+    if request.method == "POST":
+        form = Parte_docForm(request.POST)
+
+        if form.is_valid():
+            b= form.save(commit=False)
+
+            b.save()
+            return redirect('documentos:doc-detalle', pk=b.documento)
+    else:
+        form = Parte_docForm(initial={'texto':parte.texto})
+    return render(request, 'documentos/editar_parte.html', {'form': form})
+
+def Docu_editar(request, pk):
+    #busca el documentos que se esta buscando
+    docu = get_object_or_404(Documento, pk=pk)
+    #Del documento hay que buscar si hay un editable del usuario #
+    #que lo esta solicitando, si no, se crea un editable en base al publicado
+    d = Documento.objects.filter(categoria=docu.categoria)
+    print(Documento.objects.filter(categoria=docu.categoria).count)
+    if Documento.objects.filter(categoria=docu.categoria, autor=request.user, editable=True).exists():
+        #Busca exactamente el doc que estamos buscando:
+        p = Documento.objects.filter(categoria=docu.categoria, autor=request.user, editable=True)
+        for i in p:
+            partes = Parte_doc.objects.filter(documento= i).order_by('posicion_en_doc')
+            return render(request, 'documentos/docu_editar.html', {'documento':i, 'partes':partes})
+    else:
+        print("Se eligió el publicado")
+        nuevo = docu
+        nuevo.pk = None
+        nuevo.save()
+        nuevo.autor = request.user
+        nuevo.version = "Editable"
+        nuevo.fecha_creacion = timezone.now()
+        nuevo.fecha_publicacion = None
+        nuevo.fecha_vencimiento = None
+        nuevo.publicado = False
+        nuevo.editable = True
+        nuevo.save()
+        partes = Parte_doc.objects.filter(documento= Documento.objects.get(pk=pk))
+        print(partes)
+        for p in partes:
+            print("una parte")
+            nueva_p = p
+            nueva_p.pk = None
+            nueva_p.save()
+            nueva_p.autor=request.user
+            nueva_p.documento = nuevo
+            nueva_p.save()
+
+        partes_nuevo = Parte_doc.objects.filter(documento=nuevo).order_by('posicion_en_doc')
+
+        return render(request, 'documentos/docu_editar.html', {'documento':nuevo, 'partes':partes_nuevo})

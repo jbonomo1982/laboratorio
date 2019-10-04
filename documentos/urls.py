@@ -9,4 +9,6 @@ urlpatterns = [
     path('nuevo_doc/<int:pk>/', views.doc_new, name='nuevo_doc'),
     path('cat_doc/<int:pk>/',views.Categoria_docDetailView.as_view(),name='cat_doc-detail'),
     path('cat', views.cat_doc_detalle, name='cat_doc_detalle'),
+    path('Parte_doc_edit/<int:pk>/',views.editar_parte,name='editar_parte'),
+    path('Docu_edit/<int:pk>/',views.Docu_editar,name='editar_docu'),
 ]

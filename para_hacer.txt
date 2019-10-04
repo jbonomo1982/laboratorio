@@ -6,12 +6,23 @@
 -Agregar la posibilidad de unir un documento a la NC.
 
 +Modulo Documentos.
+-Buscador de documentos.
+-Edición de documentos
 -Agregar un modelo que sea revisión de documentos, con revisor y fecha de revisión.(Listo!)
+-Agregar al Detalle de Documentos la revision y Relacion de documentos.
 -Cambiar como se arma el documento, van a ser partes que se guardan en la db(Listo!)
 -Armar con el informe un pdf del documento
 -Ver detalle de los documentos.
 -Tiene que haber dos formas de ver los documentos: Los documentos publicados(Listo!) y las categorias de documentos para poder ver versiones anteriores o crear una nueva.
 -Ordenar mejor los documentos publicados.
+
+
+---Edición de documentos---
+Primero, en la pagina de Doc_detalle, hay que agregar un botón que sea para editar el doc
+Cuando se hace click, si el usuario no tiene a su nombre un editable de ese categoria de documento se crea un nuevo doc con las mismas partes del documento publicado de esa categoria.
+Si hubiese un documento editable creado por ese usuario, se muestra ese.
+En la pagina del documento editable, en cada parte del documento se muestra un botón para poder editar esa parte.
+El boton lleva a la página de edición de partes.
 
 
 
