@@ -8,14 +8,14 @@
       <h1 class="bg-primary">{{ documento.categoria }}-EDITAR</h1>
 
       <p><strong>Sector:</strong>  {{ documento.categoria.sector.nombre }}</p>
-      <p><strong>Quién publica:</strong>  {{ documento.autor }}</p>
-      
+      <p><strong>Editor:</strong>  {{ documento.autor }}</p>
+
 
       {% for p in partes %}
         <h1 class="bg-primary">{{p.titulo}}</h1>
 
           <p>{{p.texto}}</p>
-          <a>editar</a>
+          <a href="{% url 'documentos:editar_parte' pk=p.pk %}">editar</a>
 
       {% endfor%}
 

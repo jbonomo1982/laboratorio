@@ -1,7 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Documento, Categoria_doc, Parte_doc
 from modulo_nc.models import NC
-from .forms import DocumentoForm
+from .forms import DocumentoForm, Parte_docForm
 from django.views import generic
 from django.http import HttpResponse
 from django.utils import timezone
@@ -66,7 +66,6 @@ def Docu_detallado(request,pk):
     return render(request, 'documentos/documento_detail.html',{'documento':docu_buscado,'partes':partes})
 
 def editar_parte(request, pk):
-    #Busca la parte del doc
     parte = get_object_or_404(Parte_doc, pk=pk)
     #Agregar que solo puede editar partes Editor_Responsable y del sector
     if request.method == "POST":
@@ -74,11 +73,12 @@ def editar_parte(request, pk):
 
         if form.is_valid():
             b= form.save(commit=False)
-
-            b.save()
-            return redirect('documentos:doc-detalle', pk=b.documento)
+            parte.titulo = b.titulo
+            parte.texto = b.texto
+            parte.save()
+            return redirect('documentos:editar_docu', pk=parte.documento.pk)
     else:
-        form = Parte_docForm(initial={'texto':parte.texto})
+        form = Parte_docForm(initial={'texto':parte.texto,'titulo':parte.titulo, 'tipo':parte.tipo})
     return render(request, 'documentos/editar_parte.html', {'form': form})
 
 def Docu_editar(request, pk):

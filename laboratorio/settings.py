@@ -39,10 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_comments',
     'django.contrib.sites',
+    'haystack',
     'documentos',
     'modulo_nc',
     'roles',
     'instrumentos'
+
 ]
 
 SITE_ID = 1
@@ -133,3 +135,10 @@ MEDIA_URL = '/archivos/'
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = '/'
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}

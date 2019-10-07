@@ -11,7 +11,7 @@ class DocumentoForm(ModelForm):
 class Parte_docForm(ModelForm):
     class Meta:
         model = Parte_doc
-        fields = ('titulo', 'tipo','imagen','texto',)
+        fields = ('titulo','imagen','texto',)
 
 class Relacion_docsForm(ModelForm):
     class Meta:

@@ -24,4 +24,5 @@ urlpatterns = [
     path('nc/', include('modulo_nc.urls', namespace='nc')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('comments/', include('django_comments.urls')),
+    path('search/', include('haystack.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

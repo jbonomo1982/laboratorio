@@ -1,13 +1,14 @@
-+Modulo NC
++Modulo NC:
 -Agregar archivos al informe de la NC(Listo!)
 -Chequear cada proceso (nuevo, editar, publicar, etc)(Listo!)
 -Hacer que se puedan bajar/visualizar los archivos adjuntos(Actualmente solo imagenes.)
 -Poner un mensaje cuando se quiera verificar una AC que no está publicada.
 -Agregar la posibilidad de unir un documento a la NC.
 
-+Modulo Documentos.
++Modulo Documentos:
 -Buscador de documentos.
--Edición de documentos
+-Edición de documentos.
+-Establecer permisos en los procesos de creacion de documentos editables y partes-
 -Agregar un modelo que sea revisión de documentos, con revisor y fecha de revisión.(Listo!)
 -Agregar al Detalle de Documentos la revision y Relacion de documentos.
 -Cambiar como se arma el documento, van a ser partes que se guardan en la db(Listo!)
@@ -15,6 +16,7 @@
 -Ver detalle de los documentos.
 -Tiene que haber dos formas de ver los documentos: Los documentos publicados(Listo!) y las categorias de documentos para poder ver versiones anteriores o crear una nueva.
 -Ordenar mejor los documentos publicados.
+
 
 
 ---Edición de documentos---
