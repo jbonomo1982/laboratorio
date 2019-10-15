@@ -10,15 +10,22 @@
       <p><strong>Sector:</strong>  {{ cat.sector.nombre }}</p>
       <p><strong>descripción:</strong>  {{ cat.descripcion }}</p>
 
+    {% if user.is_authenticated %}
       {% if docs %}
         <h2>versiones de este documento en el sistema:</h2>
         {% for d in docs %}
-          <ul>
-            <li>{{d}}</li>
-          </ul>
+          {% if d.publicado == True%}
+            <ul>
+              <li>{{d}} - PUBLICADO <a href="{% url 'documentos:editar_docu' pk=d.pk%}">Editar documento  </a></li>
+            </ul>
+          {% else %}
+            <ul>
+              <li>{{d}} </li>
+            </ul>
+          {% endif %}
         {% endfor %}
       {% endif %}
-
+    {% endif %}
 
 
 

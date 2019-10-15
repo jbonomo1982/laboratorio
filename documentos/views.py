@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Documento, Categoria_doc, Parte_doc
+from .models import Documento, Categoria_doc, Parte_doc, Revision_doc, Relacion_docs
 from modulo_nc.models import NC
 from .forms import DocumentoForm, Parte_docForm
 from django.views import generic
@@ -61,9 +61,11 @@ def Docu_detallado(request,pk):
     docu_buscado = Documento.objects.get(pk=pk)
     partes = Parte_doc.objects.filter(documento=docu_buscado).order_by('posicion_en_doc')
     #Agregar la relacion de documentos
+    relacion = Relacion_docs.objects.filter(documento=docu_buscado)
     #Agregar revision de doc.
+    revisiones = Revision_doc.objects.filter(documento= docu_buscado )
 
-    return render(request, 'documentos/documento_detail.html',{'documento':docu_buscado,'partes':partes})
+    return render(request, 'documentos/documento_detail.html',{'documento':docu_buscado,'partes':partes, 'revisiones':revisiones,'relacion':relacion})
 
 def editar_parte(request, pk):
     parte = get_object_or_404(Parte_doc, pk=pk)
@@ -107,6 +109,8 @@ def Docu_editar(request, pk):
         nuevo.publicado = False
         nuevo.editable = True
         nuevo.save()
+        #Agregar la relación de documentos para que cree la instancia para
+        #El nuevo documento.
         partes = Parte_doc.objects.filter(documento= Documento.objects.get(pk=pk))
         print(partes)
         for p in partes:
