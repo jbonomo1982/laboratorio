@@ -97,3 +97,14 @@ class Revision_doc(models.Model):
 
     def __str__(self):
         return '{0} REV {1}'.format(self.documento,self.fecha_revision)
+
+class Publicacion_doc(models.Model):
+    #Esta clase es para almacenar cuando y quien aprobó la publicación  de un documento.
+    editor = models.ForeignKey('auth.User', on_delete=models.CASCADE, help_text="Quien aprueba la publicación")
+    documento = models.ForeignKey(Documento, on_delete=models.CASCADE)
+    fecha_publicacion = models.DateField(help_text="fecha en que se realiza la publicación.")
+    comentario_revision = models.CharField(max_length=500, blank=True, null=True)
+
+    def __str__(self):
+        return '{0} PUB {1}'.format(self.documento,self.fecha_publicacion)
+
