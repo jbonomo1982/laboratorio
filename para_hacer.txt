@@ -6,12 +6,8 @@
 -Agregar la posibilidad de unir un documento a la NC.
 
 +Modulo Documentos:
--Buscador de documentos.(Listo!)
--Edición de documentos.(Listo!)
 -Establecer permisos en los procesos de creacion de documentos editables y partes-
--Agregar un modelo que sea revisión de documentos, con revisor y fecha de revisión.(Listo!)
--Agregar al Detalle de Documentos la revision y Relacion de documentos.(Listo!)
--Agregar a la edicion de documentos la relación de documentos.
+-Agregar a la edicion de documentos la relación de documentos.--Ver si tiene sentido lo de relación de versiones de documentos.
 -Armar con el informe un pdf del documento
 -Ver detalle de los documentos.
 -Tiene que haber dos formas de ver los documentos: Los documentos publicados(Listo!) y las categorias de documentos para poder ver versiones anteriores o crear una nueva.

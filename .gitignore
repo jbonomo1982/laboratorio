@@ -6,3 +6,6 @@ db.sqlite3
 /static
 .DS_Store
 archivos
+.vscode/launch.json
+.vscode/settings.json
+documentos/migrations/0013_publicacion_doc.py

@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Documento, Categoria_doc, Parte_doc, Revision_doc, Relacion_docs
+from .models import Documento, Categoria_doc, Parte_doc, Revision_doc, Relacion_docs, Publicacion_doc
 from modulo_nc.models import NC
 from .forms import DocumentoForm, Parte_docForm
 from django.views import generic
@@ -60,12 +60,14 @@ def cat_doc_detalle(request):
 def Docu_detallado(request,pk):
     docu_buscado = Documento.objects.get(pk=pk)
     partes = Parte_doc.objects.filter(documento=docu_buscado).order_by('posicion_en_doc')
-    #Agregar la relacion de documentos
+    #relacion de documentos
     relacion = Relacion_docs.objects.filter(documento=docu_buscado)
-    #Agregar revision de doc.
+    #revision de doc.
     revisiones = Revision_doc.objects.filter(documento= docu_buscado )
+    #Publicación doc.
+    publicacion = Publicacion_doc.objects.filter(documento= docu_buscado)
 
-    return render(request, 'documentos/documento_detail.html',{'documento':docu_buscado,'partes':partes, 'revisiones':revisiones,'relacion':relacion})
+    return render(request, 'documentos/documento_detail.html',{'documento':docu_buscado,'partes':partes, 'revisiones':revisiones,'relacion':relacion, 'publicacion':publicacion})
 
 def editar_parte(request, pk):
     parte = get_object_or_404(Parte_doc, pk=pk)
@@ -102,7 +104,7 @@ def Docu_editar(request, pk):
         nuevo.pk = None
         nuevo.save()
         nuevo.autor = request.user
-        nuevo.version = "Editable"
+        nuevo.version = 'EDITABLE - {0}'.format(request.user)
         nuevo.fecha_creacion = timezone.now()
         nuevo.fecha_publicacion = None
         nuevo.fecha_vencimiento = None
@@ -111,6 +113,13 @@ def Docu_editar(request, pk):
         nuevo.save()
         #Agregar la relación de documentos para que cree la instancia para
         #El nuevo documento.
+        #Primero buscamos si el anterior tiene relaciones de documento
+        #Si lo tiene le ponemos como doc el doc nuevo y la relacion del doc viejo.
+        #if Relacion_docs.objects.filter(documento=docu).exists():
+        #    antiguo = Relacion_docs.objects.get(documento=docu)
+        #   nr = Relacion_docs(documento=nuevo,pertenece=antiguo.pertenece)
+        #    nr.save()
+
         partes = Parte_doc.objects.filter(documento= Documento.objects.get(pk=pk))
         print(partes)
         for p in partes:

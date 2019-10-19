@@ -4,13 +4,14 @@
 {% block content %}
   <div class="conteiner-fluid">
   <div class='row'>
-    <div class="col-sm-9 col-md-9" style="background-color:rgb(230, 248, 242);">
+    <div class="col-sm-12 col-md-12" style="background-color:rgb(230, 248, 242);">
       <h1 class="bg-primary">{{ documento.categoria }} - {{documento.categoria.descripcion}}<a href="{% url 'documentos:cat_doc_detalle' %}?CD={{documento.categoria.pk}}">ver descripción documento</a></h1>
 
       <p><strong>Sector:</strong>  {{ documento.categoria.sector.nombre }}</p>
-      <p><strong>Quién publica:</strong>  {{ documento.autor }}</p>
-      <p><strong>Version:</strong>  {{ documento.version }}</p>
-      <p><strong>fecha publicación:</strong>  {{ documento.fecha_publicacion }}</p>
+      <p><strong>Versión:</strong>  {{ documento.version }}</p>
+      {% if documento.pertenece_a != None %}
+        <p><strong>Pertenciente a:</strong> {{documento.pertenece_a}} <a href="{% url 'documentos:cat_doc_detalle' %}?CD={{documento.pertenece_a.pk}}">ver</a></p>
+      {% endif %}
       {% if documento.archivo %}
         <a href=" {{documento.archivo.url}}">Descargar Archivo</a>
       {% endif %}
@@ -27,20 +28,20 @@
         {% endif%}
       {% endfor%}
 
+
+      <h2 class= "bg-primary"> Datos de esta edición:</h2>
+      <p><strong>Autor:</strong>  {{ documento.autor.first_name }} {{ documento.autor.last_name }}</p>
+
       {% if revisiones %}
-        <h2 class= "bg-primary"> Revisiones de este documento:</h2>
         {% for r in revisiones%}
-          <p>Realizado por: {{r.autor.first_name}}</p>
-          <p>Día de revisión: {{r.fecha_revision}}</p>
+          <p><strong>Revisión realizada por:</strong> {{r.autor.first_name}} {{r.autor.last_name}}, el día: {{r.fecha_revision}} </p>
         {% endfor %}
       {% endif %}
+          
 
-      {% if relacion %}
-        <h2 class= "bg-primary"> Este documento pertenece a:</h2>
-        {% for r in relacion%}
-          {% if r.pertenece.publicado %}
-            <p>{{r.pertenece}}</p>
-          {% endif%}
+      {% if publicacion %}
+        {% for p in publicacion%}
+          <p><strong> Publicado por:</strong> {{p.editor.first_name}} {{p.editor.last_name}}, el día: {{ p.fecha_publicacion}}</p>
         {% endfor %}
       {% endif %}
 
