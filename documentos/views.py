@@ -5,6 +5,9 @@ from .forms import DocumentoForm, Parte_docForm
 from django.views import generic
 from django.http import HttpResponse
 from django.utils import timezone
+from django.template.loader import render_to_string
+from weasyprint import HTML
+import tempfile
 
 # Create your views here.
 def index(request):
@@ -134,3 +137,30 @@ def Docu_editar(request, pk):
         partes_nuevo = Parte_doc.objects.filter(documento=nuevo).order_by('posicion_en_doc')
 
         return render(request, 'documentos/docu_editar.html', {'documento':nuevo, 'partes':partes_nuevo})
+
+def generar_pdf(request, pk):
+    docu_buscado = Documento.objects.get(pk=pk)
+    partes = Parte_doc.objects.filter(documento=docu_buscado).order_by('posicion_en_doc')
+    #relacion de documentos
+    relacion = Relacion_docs.objects.filter(documento=docu_buscado)
+    #revision de doc.
+    revisiones = Revision_doc.objects.filter(documento= docu_buscado )
+    #Publicación doc.
+    publicacion = Publicacion_doc.objects.filter(documento= docu_buscado)
+
+    html_string = render_to_string('documentos/generar.html',{'documento':docu_buscado, 'partes':partes})
+    html = HTML(string=html_string)
+    result = html.write_pdf()
+
+    response = HttpResponse(content_type='application/pdf;')
+    response['Content-Disposition'] = 'inline; filename=documento.pdf'
+    response['Content-Transfer-Encoding'] = 'binary'
+    with tempfile.NamedTemporaryFile(delete=True) as output:
+        output.write(result)
+        output.flush()
+        output = open(output.name, 'rb')
+        response.write(output.read())
+
+    return response
+
+
