@@ -12,9 +12,7 @@
       {% if documento.pertenece_a != None %}
         <p><strong>Pertenciente a:</strong> {{documento.pertenece_a}} <a href="{% url 'documentos:cat_doc_detalle' %}?CD={{documento.pertenece_a.pk}}">ver</a></p>
       {% endif %}
-      {% if documento.archivo %}
-        <a href=" {{documento.archivo.url}}">Descargar Archivo</a>
-      {% endif %}
+      <a href="{% url 'documentos:pdf' pk=documento.pk %}">Versión PDF</a>
 
       {% for p in partes %}
 
