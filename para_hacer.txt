@@ -8,8 +8,8 @@
 +Modulo Documentos:
 -Establecer permisos en los procesos de creacion de documentos editables y partes-
 -Agregar a la edicion de documentos la relación de documentos.--Ver si tiene sentido lo de relación de versiones de documentos.
--Armar con el informe un pdf del documento
--Ver detalle de los documentos.
+-Armar con el informe un pdf del documento (Listo!)
+-Ver detalle de los documentos.(Listo!)
 -Tiene que haber dos formas de ver los documentos: Los documentos publicados(Listo!) y las categorias de documentos para poder ver versiones anteriores o crear una nueva.
 -Ordenar mejor los documentos publicados.
 

@@ -28,7 +28,7 @@
 
 
       <h2 class= "bg-primary"> Datos de esta edición:</h2>
-      <p><strong>Autor:</strong>  {{ documento.autor.first_name }} {{ documento.autor.last_name }}</p>
+      <p><strong>Realizada por:</strong>  {{ documento.autor.first_name }} {{ documento.autor.last_name }} <strong>el día: </strong> {{documento.fecha_creacion}}</p>
 
       {% if revisiones %}
         {% for r in revisiones%}
