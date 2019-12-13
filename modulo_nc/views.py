@@ -132,7 +132,7 @@ def accionInm_por_NC(request):
     nc_requerida = request.GET['NC']
     nc_buscada = NC.objects.get(pk=nc_requerida)
     acc = AccionInm.objects.filter(nc=nc_buscada)
-    return render(request, 'modulo_nc/x_nc.html', {'tipo':tipo,'ai':acc,'nc': nc_requerida})
+    return render(request, 'modulo_nc/x_nc.html', {'tipo':tipo,'ai':acc,'nc': nc_buscada})
 
 
 #Analisis Causa:
@@ -170,7 +170,7 @@ def analisiscausa_por_NC(request):
     nc_requerida = request.GET['NC']
     nc_buscada = NC.objects.get(pk=nc_requerida)
     ac = AnalisisCausa.objects.filter(nc=nc_buscada)
-    return render(request, 'modulo_nc/x_nc.html', {'tipo':tipo,'ac':ac,'nc': nc_requerida})
+    return render(request, 'modulo_nc/x_nc.html', {'tipo':tipo,'ac':ac,'nc': nc_buscada})
 
 
 def AnalisisCausa_publicar(request, pk):
@@ -272,7 +272,7 @@ def accioncorrectiva_por_NC(request):
     nc_requerida = request.GET['NC']
     nc_buscada = NC.objects.get(pk=nc_requerida)
     ac = AccionCorrectiva.objects.filter(nc=nc_buscada)
-    return render(request, 'modulo_nc/x_nc.html', {'tipo':tipo,'aco':ac,'nc': nc_requerida})
+    return render(request, 'modulo_nc/x_nc.html', {'tipo':tipo,'aco':ac,'nc': nc_buscada})
 
 
 def AccionCorrectiva_publicar(request, pk):
@@ -450,7 +450,7 @@ def archivo_por_NC(request):
     nc_requerida = request.GET['NC']
     nc_buscada = NC.objects.get(pk=nc_requerida)
     ar = Archivo.objects.filter(nc=nc_buscada)
-    return render(request, 'modulo_nc/x_nc.html', {'ar':ar,'nc': nc_requerida, 'tipo':tipo})
+    return render(request, 'modulo_nc/x_nc.html', {'ar':ar,'nc': nc_buscada, 'tipo':tipo})
 
 
 def Archivo_publicar(request, pk):
@@ -575,7 +575,7 @@ def cierreNC_por_NC(request):
     nc_requerida = request.GET['NC']
     nc_buscada = NC.objects.get(pk=nc_requerida)
     cNC = CierreNC.objects.filter(nc=nc_buscada)
-    return render(request, 'modulo_nc/x_nc.html', {'cNC':cNC,'nc': nc_requerida,'tipo':tipo})
+    return render(request, 'modulo_nc/x_nc.html', {'cNC':cNC,'nc': nc_buscada,'tipo':tipo})
 
 
 def cierreNC_publicar(request, pk):

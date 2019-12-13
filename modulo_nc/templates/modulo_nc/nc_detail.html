@@ -5,16 +5,16 @@
   <div class="conteiner-fluid">
   <div class='row'>
     <div class="col-sm-9 col-md-9" >
-      <h1 class="bg-primary">No Conformidad: {{ nc.codigo }}</h1>
+      <h1 class="bg-primary">No Conformidad: {{ nc.codigo}}</h1>
 
-      <p><strong>Autor:</strong>  {{ nc.autor }}</p>
+      <p><strong>Autor:</strong>  {{ nc.autor.first_name }} {{ nc.autor.last_name }}</p>
       <p><strong>Título:</strong> {{ nc.titulo }}</p>
-      <p><strong>Sector:</strong> {{ nc.sector }}</p>
+      <p><strong>Sector:</strong> {{ nc.sector.nombre }}</p>
       <p><strong>Fecha de apertura:</strong> {{ nc.fecha_apertura }}</p>
       {% if nc.cerrada %}
-        <p><strong>Cerrado:</strong> Verdadero </p>
+        <p><strong>Estado:</strong><span class= 'label label-success'>CERRADA</span></p>
       {% else %}
-        <p><strong>Cerrado:</strong> Falso </p>
+        <p><strong>Estado:</strong> <span class= 'label label-default'>ABIERTA</span></p>
       {% endif %}
       <h4><strong>descripcion de la NC:</strong></h4>
       <p class="bg-info"> {{ nc.descripcion }}</p>

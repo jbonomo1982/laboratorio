@@ -71,7 +71,7 @@ class AccionInm(models.Model):
 
 
     def __str__(self):
-        return 'Acción Inm: {0} {1}'.format(self.autor,self.nc)
+        return 'Acción Inm {3}. Autor: {0} de NC {1} publicado: {2}'.format(self.autor,self.nc,self.publicado, self.pk)
 
 class AccionCorrectiva(models.Model):
     autor = models.ForeignKey('auth.User', on_delete=models.CASCADE)

@@ -22,7 +22,7 @@
 
   {% for group in user.groups.all %}
     {% if group.name == 'Editor_Responsable' %}
-    <h2>Publicar Verificación de Acción correctiva</h4>
+    <h2>Publicar Verificación de Acción correctiva</h2>
     <a href="{% url 'nc:Verificacion-publicar' pk=verificaac.pk %}">Publicar esta verificación AC.</a>
     {% endif %}
   {% endfor %}

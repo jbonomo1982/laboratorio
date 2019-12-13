@@ -1,25 +1,25 @@
 {% extends "documentos/base.html" %}
 
 {% block content %}
-    <h1>Lista de {{tipo}} para la NC {{nc}} </h1>
+    <h1>Lista de {{tipo}} para la NC  {{nc.pk}} </h1>
+    <h2>{{nc.titulo}}</h2>
 
     {% if ac %}
     <ul>
 
       {% for a in ac %}
-      <li>
-        <a href="{% url 'nc:AnalisisCausa-detail' pk=a.pk %}">{{ a.pk }}</a>
-
-
-      </li>
-      <ul>
+        <li>
+          <a href="{% url 'nc:AnalisisCausa-detail' pk=a.pk %}">{{ a }} </a>
+        </li>
+      
       {% endfor %}
+    </ul> 
     {% elif ai %}
       <ul>
 
         {% for a in ai %}
         <li>
-          <a href="{% url 'nc:AccionInm-detail' pk=a.pk %}">{{ a.pk }}</a>
+          <a href="{% url 'nc:AccionInm-detail' pk=a.pk %}">{{ a }}</a>
 
 
         </li>
@@ -32,7 +32,7 @@
 
           {% for a in aco %}
           <li>
-            <a href="{% url 'nc:AccionCorrectiva-detail' pk=a.pk %}">{{ a.pk }}</a>
+            <a href="{% url 'nc:AccionCorrectiva-detail' pk=a.pk %}">{{ a }}</a>
 
 
           </li>
@@ -44,7 +44,7 @@
 
             {% for a in ar %}
             <li>
-              <a href="{% url 'nc:Archivo-detail' pk=a.pk %}">{{ a.pk }}</a>
+              <a href="{% url 'nc:Archivo-detail' pk=a.pk %}">{{ a }}</a>
 
 
             </li>
@@ -56,7 +56,7 @@
 
               {% for a in cNC %}
               <li>
-                <a href="{% url 'nc:CierreNC-detail' pk=a.pk %}">{{ a.pk }}</a>
+                <a href="{% url 'nc:CierreNC-detail' pk=a.pk %}">{{ a }}</a>
 
 
               </li>
@@ -69,13 +69,13 @@
 
     <h2>Avanzar en la No Conformidad:</h2>
       <ul>
-        <li><a href="{% url 'nc:nuevaAccionInm' pk=nc %}">Abrir Acción Inmediata</a></li>
-        <li><a href="{% url 'nc:nuevaAnalisis' pk=nc %}">Abrir Análisis de Causa</a></li>
-        <li><a href="{% url 'nc:nuevaAccionCorrectiva' pk=nc %}">Abrir Acción Correctiva</a></li>
-        <li><a href="{% url 'nc:nuevaArchivo' pk=nc %}">Subir Archivo</a></li>
-        <li><a href="{% url 'nc:nuevaCierreNC' pk=nc %}">Cerrar No Conformidad</a></li>
+        <li><a href="{% url 'nc:nuevaAccionInm' pk=nc.pk %}">Abrir Acción Inmediata</a></li>
+        <li><a href="{% url 'nc:nuevaAnalisis' pk=nc.pk %}">Abrir Análisis de Causa</a></li>
+        <li><a href="{% url 'nc:nuevaAccionCorrectiva' pk=nc.pk %}">Abrir Acción Correctiva</a></li>
+        <li><a href="{% url 'nc:nuevaArchivo' pk=nc.pk %}">Subir Archivo</a></li>
+        <li><a href="{% url 'nc:nuevaCierreNC' pk=nc.pk %}">Cerrar No Conformidad</a></li>
 
       </ul>
 
-    <a href="{% url 'nc:nc-detail' pk=nc %}" class="btn btn-primary" role="button">Volver a NC {{nc.pk}}</a>
+    <a href="{% url 'nc:nc-detail' pk=nc.pk %}" class="btn btn-primary" role="button">Volver a NC {{nc.pk}}</a>
 {% endblock %}

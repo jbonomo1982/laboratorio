@@ -16,11 +16,15 @@
         {% for d in docs %}
           {% if d.publicado == True%}
             <ul>
-              <li>{{d}} - PUBLICADO <a href="{% url 'documentos:editar_docu' pk=d.pk%}">Editar documento  </a></li>
+              <li>{{d}} - PUBLICADO <a href="{% url 'documentos:editar_docu' pk=d.pk%}">Trabajar con Versión Editable</a></li>
             </ul>
           {% else %}
             <ul>
-              <li>{{d}} </li>
+              {% for group in user.groups.all %}
+                {% if group.name == 'Editor_Responsable' %}
+                  <li>{{d}}  <a href="{%url 'documentos:doc-detalle' pk=d.pk%}">Ver Documento </a></li>
+                {% endif %}
+              {% endfor %}
             </ul>
           {% endif %}
         {% endfor %}

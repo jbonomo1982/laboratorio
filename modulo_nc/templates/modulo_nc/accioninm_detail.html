@@ -11,10 +11,10 @@
   </div>
 
   {% if accioninm.publicado%}
-    <p>Esta Acción Inmediata  está publicada</p>
+    <span class= 'label label-success'>PUBLICADA</span>
 
   {% else %}
-    <p>Esta acción inmediata no está publicada.</p>
+    <span class= 'label label-default'>NO PUBLICADA</span>
   {% endif %}
 
 
@@ -27,7 +27,7 @@
   {% endif %}
 
   {% for group in user.groups.all %}
-    {% if group.name == 'Editor_Responsable' %}
+    {% if group.name == 'Editor_Responsable' and accioninm.publicado == False %}
     <br>
     <a href="{% url 'nc:AccionInm-publicar' pk=accioninm.pk %}">Publicar esta Acción Inmediata</a>
     {% endif %}

@@ -74,7 +74,7 @@ def Docu_detallado(request,pk):
 
 def editar_parte(request, pk):
     parte = get_object_or_404(Parte_doc, pk=pk)
-    #Agregar que solo puede editar partes Editor_Responsable y del sector
+    #Agregar que solo puede editar partes Editor_Responsable y el que lo creó.
     if request.method == "POST":
         form = Parte_docForm(request.POST)
 
@@ -91,7 +91,7 @@ def editar_parte(request, pk):
 def Docu_editar(request, pk):
     #busca el documentos que se esta buscando
     docu = get_object_or_404(Documento, pk=pk)
-    #Del documento hay que buscar si hay un editable del usuario #
+    #Del documento hay que buscar si hay un editable del usuario 
     #que lo esta solicitando, si no, se crea un editable en base al publicado
     d = Documento.objects.filter(categoria=docu.categoria)
     print(Documento.objects.filter(categoria=docu.categoria).count)
@@ -162,5 +162,37 @@ def generar_pdf(request, pk):
         response.write(output.read())
 
     return response
+
+def publicar_docu(request, pk):
+    #Proceso por el cual se publica un documento que estaba en version editar, pasa a Publicado y editar=False.
+    #El que estaba publicado tiene que pasar a publicado= false, pero editar false queda.
+    #Chequear que el usuario que publica es Editor_Responsable
+    docu = get_object_or_404(Documento, pk=pk)
+    partes = Parte_doc.objects.filter(documento=docu).order_by('posicion_en_doc')
+    #Buscar el documento publicado.
+    docu_publicado = Documento.objects.get(categoria=docu.categoria, publicado=True, editable=False)
+    #Chequear del que hace el pedido es un usuario Editor_Responsable
+    grupo = request.user.groups.filter(name='Editor_Responsable').exists()
+    if not grupo:
+        return HttpResponse("Tiene que tener un usuario con perfil de editor para poder publicar. " + str(usuario_req))
+    else:
+        print('Se puede comenzar a publicar')
+        otros_doc = Documento.objects.filter(categoria=docu.categoria).exclude(pk=docu.pk)
+        if docu.publicado == True:
+            return HttpResponse("Este documento ya está publicado")
+        else:
+            for d in otros_doc:
+                print(d.autor)
+            otros_doc.update(publicado=False)
+            docu.publicado = True
+            docu.editable = False
+            version = int(docu_publicado.version)
+            print(version)
+            docu.version = version + 1
+            docu.save()
+            return HttpResponse("Se cambia la version publicada")
+
+
+
 
 

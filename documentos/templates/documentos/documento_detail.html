@@ -27,7 +27,7 @@
       {% endfor%}
 
 
-      <h2 class= "bg-primary"> Datos de esta edición:</h2>
+      <h2 class= "bg-primary"> Datos de esta versión:</h2>
       <p><strong>Realizada por:</strong>  {{ documento.autor.first_name }} {{ documento.autor.last_name }} <strong>el día: </strong> {{documento.fecha_creacion}}</p>
 
       {% if revisiones %}
@@ -42,6 +42,13 @@
           <p><strong> Publicado por:</strong> {{p.editor.first_name}} {{p.editor.last_name}}, el día: {{ p.fecha_publicacion}}</p>
         {% endfor %}
       {% endif %}
+
+      {% for group in user.groups.all %}
+      {% if group.name == 'Editor_Responsable' %}
+        <h2 class= "bg-primary">Publicar Este Documento:</h2>
+        <a href="{% url 'documentos:publicar_docu' pk=documento.pk %}">Publicar este Documento.</a>
+      {% endif %}
+    {% endfor %}
 
 
 
