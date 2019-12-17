@@ -5,22 +5,24 @@
   <div class="conteiner-fluid">
   <div class='row'>
     <div class="col-sm-12 col-md-12" style="background-color:rgb(230, 248, 242);">
-      <h1 class="bg-primary">{{ documento.categoria }} - {{documento.categoria.descripcion}}<a href="{% url 'documentos:cat_doc_detalle' %}?CD={{documento.categoria.pk}}">ver descripción documento</a></h1>
-
+      <h1 class="bg-primary">{{ documento.categoria }} - {{documento.categoria.descripcion}}</h1>
+      <a href="{% url 'documentos:cat_doc_detalle' %}?CD={{documento.categoria.pk}}" class="btn btn-info" role="button">Ver descripción del documento</a>
       <p><strong>Sector:</strong>  {{ documento.categoria.sector.nombre }}</p>
       <p><strong>Versión:</strong>  {{ documento.version }}</p>
       {% if documento.pertenece_a != None %}
         <p><strong>Pertenciente a:</strong> {{documento.pertenece_a}} <a href="{% url 'documentos:cat_doc_detalle' %}?CD={{documento.pertenece_a.pk}}">ver</a></p>
       {% endif %}
       <a href="{% url 'documentos:pdf' pk=documento.pk %}">Versión PDF</a>
+      <br>
 
       {% for p in partes %}
 
         {% if p.tipo == 'T'%}
-          <h1 class="bg-primary">{{p.titulo}}</h1>
-          <p>{{p.texto}}</p>
+          <button type="button" class="btn btn-success" data-toggle="collapse" data-target='#{{ p.pk }}'>{{p.titulo}}</button>
+          <div id = '{{ p.pk }}' class = 'collapse'>{{p.texto}}</div>
+          <br>
         {% else %}
-          <h3>{{p.titulo}}</h3>
+          <h1>{{p.titulo}}</h1>
           <img src='{{p.imagen.url}}'>
           <p>{{p.texto}}</p>
         {% endif%}
@@ -44,7 +46,7 @@
       {% endif %}
 
       {% for group in user.groups.all %}
-      {% if group.name == 'Editor_Responsable' %}
+      {% if group.name == 'Editor_Responsable' and documento.publicado == False%}
         <h2 class= "bg-primary">Publicar Este Documento:</h2>
         <a href="{% url 'documentos:publicar_docu' pk=documento.pk %}">Publicar este Documento.</a>
       {% endif %}

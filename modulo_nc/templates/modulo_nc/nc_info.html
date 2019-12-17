@@ -5,15 +5,15 @@
 
     <h1 class="bg-primary">No Conformidad: {{ nc.pk }}</h1>
 
-    <p><strong>Autor:</strong> {{ nc.autor }}</p>
+    <p><strong>Autor:</strong> {{ nc.autor.first_name }} {{ nc.autor.last_name }}</p>
     <p><strong>Título:</strong> {{ nc.titulo }}</p>
-    <p><strong>Sector:</strong> {{ nc.sector }}</p>
+    <p><strong>Sector:</strong> {{ nc.sector.nombre }}</p>
     <p><strong>Fecha de apertura:</strong> {{ nc.fecha_apertura }}</p>
     {% if nc.cerrada %}
-        <p><strong>Estado de la NC:</strong> Cerrada</p>
+        <p><strong>Estado de la NC:</strong> <span class= 'label label-success'>CERRADA</span></p>
 
         {% else %}
-            <p><strong>Estado de la NC:</strong> Abierta</p>
+            <p><strong>Estado de la NC:</strong> <span class= 'label label-default'>ABIERTA</span></p>
 
     {% endif %}
 
@@ -22,29 +22,28 @@
       <p> {{ nc.descripcion }}</p>
     </div>
 
-    <h2 class="bg-primary">Acción Inmediata:</h2>
-    <br>
+    <h2>Acción Inmediata:</h2>
     <p><strong>Descripción:</strong></p>
     <p>{{ ai.descripcion }} </p>
 
-    <h2 class="bg-primary">Análisis de Causa:</h2>
+    <h2>Análisis de Causa:</h2>
     <p><strong>Descripción:</strong></p>
     <p>{{ ac.descripcion }} </p>
 
-    <h2 class="bg-primary">Acción Correctiva:</h2>
+    <h2>Acción Correctiva:</h2>
     <p><strong>Descripción:</strong></p>
     <p>{{ aco.descripcion }} </p>
     <p><strong>Fecha límite:</strong> {{aco.fecha_limite}}</p>
 
-    <h2 class="bg-primary">Verificación de la Acción Correctiva:</h2>
+    <h2>Verificación de la Acción Correctiva:</h2>
     <p><strong>Fecha:</strong> {{vac.fecha_verificacion}}</p>
     <p><strong>Método:</strong> {{vac.metodo_verificacion}}</p>
     <p><strong>Resultado:</strong> {{vac.resultado}}</p>
 
-    <h2 class="bg-primary">Cierre de NC</h2>
+    <h2>Cierre de NC</h2>
     <p><strong>Fecha:</strong> {{cNC.fecha_cierre}}</p>
 
-    <h2 class="bg-primary">Archivos Adjuntos</h2>
+    <h2>Archivos Adjuntos</h2>
     {% for ar in arch_nc %}
       <p> <a href="{{ ar.archivo.url }}"> {{ar.descripcion}}</a> <p>
     {% endfor%}

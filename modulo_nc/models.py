@@ -53,7 +53,7 @@ class AnalisisCausa(models.Model):
     publicado = models.BooleanField(default=False,help_text="Indica si la entrada está aceptada.")
 
     def __str__(self):
-        return 'Analisis causa: {0} {1}'.format(self.autor,self.nc)
+        return 'AC {2}-- autor {0} de NC {1}- Publicado: {3} '.format(self.autor,self.nc, self.pk, self.publicado)
 
 
 

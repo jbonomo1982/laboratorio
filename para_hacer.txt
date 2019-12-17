@@ -7,7 +7,13 @@
 -Informe en PDF
 
 +Modulo Documentos:
+-Crear un nuevo perfil para 'editores' para los que pueden hacer revisiones.
+-Agregar Revision de documentos para los editores.
 -Establecer permisos en los procesos de creacion de documentos editables y partes-
+-Crear pagina de revision de documentos, para chequear los vencimientos.
+-Que en la visualizacion del documento solo se vea el titulo, y si se hace click aparezca el texto.
+-Metadatos de cada documento, para poner que cambia de cada version.
+-Editores responsables pueden asignar editores para que revisen los documentos.
 -Crear el flujo de trabajo para publicar un documento: Solo pueden publicar los editores responsables y
  cuando se publica un doc todas las otras versiones quedan como no publicadas (Listo!).
 -Agregar a la edicion de documentos la relación de documentos.--Ver si tiene sentido lo de relación de versiones de documentos.
