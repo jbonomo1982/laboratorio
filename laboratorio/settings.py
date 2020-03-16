@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'documentos',
     'modulo_nc',
     'roles',
-    'instrumentos'
+    'instrumentos',
+    'p_mananager'
 
 ]
 

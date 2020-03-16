@@ -1,0 +1,24 @@
+{% extends "documentos/base.html" %}
+
+{% block content %}
+    <h1>Lista de Proyectos públicos</h1>
+
+    {% if proyectos_list %}
+    <ul>
+
+      {% for d in proyectos_list %}
+      <li>
+        <a href="{% url 'documentos:doc-detalle' pk=d.pk %}">{{ d.categoria }}</a>
+        <p>{{d.get_absolute_url}}</p>
+      </li>
+      {% endfor %}
+
+    </ul>
+    {% else %}
+      <p>No se ingresó ningún Proyecto.</p>
+    {% endif %}
+
+
+
+
+{% endblock %}
