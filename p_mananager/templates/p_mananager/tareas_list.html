@@ -3,18 +3,18 @@
 {% block content %}
     <h1>Lista de Proyectos públicos</h1>
 
-    {% if proyectos_list %}
+    {% if tareas_list %}
     <ul>
 
-      {% for d in proyectos_list %}
+      {% for d in tareas_list %}
       <li>
-        <a href="{% url 'p_m:proy-detail' pk=d.pk %}">{{ d.nombre_proyecto }}</a>
+        <a href="{% url 'p_m:tar-detail' pk=d.pk %}">{{ d.nombre_tarea }}</a>
       </li>
       {% endfor %}
 
     </ul>
     {% else %}
-      <p>No se ingresó ningún Proyecto.</p>
+      <p>No se ingresó ninguna Tarea.</p>
     {% endif %}
 
 
